@@ -1,0 +1,29 @@
+#Quiz Game
+print('Welcome to the Quiz game')
+
+entry = input('do you want to proceed; \n ').lower()
+
+if entry != 'yes':
+    quit()
+
+print("Let's begin!")
+
+q1 = input("What is the capital of India").lower()
+if q1 == 'delhi':
+    i = 1
+    print('Correct!')
+else: print("Wrong answer.")
+
+q2 = input("What is the Capital of Turkey?").lower()
+if q2 == 'ankara':
+    i = 2
+    print('correct!')
+else: print("Wrong Answer")
+
+q3 = input("What is the capital of Australia?").lower()
+if q3 == 'canberra':
+    i = 3
+    print('correct!')
+else: print("Wrong")
+
+print(f'the quiz is finished your total marks is {i} and the percentage is {i/3*100} ')
