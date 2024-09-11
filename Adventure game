@@ -1,0 +1,28 @@
+#Creating my own adventure game
+
+name = input('Enter your name to Continue: ').upper()
+print(f'Welcome {name}')
+
+q1 = input('You are standing at the crossroads in a jungle. Which way you will prefer to go? Type (left/right)').lower()
+
+if q1 == "right":
+    q2 = input('you come across a river. There is a bridge but a monster guards it. Do you want to swim across the river or fight the monster? Press 1 to fight, 2 to swim across')
+    if q2 == 1:
+        print("You fought the monster and gained a skill, YOU WON!")
+    else:
+        print("You were swimming across the river and got eaten by a crocodile, YOU LOSE!")
+elif q1 == "left":
+    q3 = input('Go back to where you came from and never come out again! Y/N').lower()
+    if q3 == "y":
+        q4 = input("Would you take the bridge? (Y/N").lower()
+        if q4 == "y":
+            print("you fought the monster an gained a skill, YOU WON!")
+        elif q4 == "n":
+            print("I know you were a  coward!, YOU LOSE!")
+    elif q4 =="n":
+        print("HA HA HA, You were always a loser!")
+else:
+    print("You lost!")
+    print("Better luck next time!")
+
+print(f"Thank you for playing {name}")
