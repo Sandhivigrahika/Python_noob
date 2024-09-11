@@ -1,0 +1,33 @@
+#rock paper scissors game
+from random import randint
+
+computer_wins = 0
+human_wins = 0
+
+options = ["rock","paper","scissors"]
+
+while True:
+    user_input = input("Type Rock/Paper/Scissors").lower()
+    if user_input == "q": #to give the choice to stop the game at every iteration
+        break
+    if user_input not in options:
+        continue #to ask to run the loop again. ask the user input again.
+    random_number = randint(0,2)
+    computer_choice = options[random_number]
+    if user_input == "rock" and computer_choice == "scissors":
+        print("you won!")
+        human_wins += 1
+    elif user_input == "scissors" and computer_choice == "paper":
+        print("you won!")
+        human_wins += 1
+    elif user_input == "rock" and computer_choice == "raper":
+        human_wins +=1
+        print("you won!")
+    else:
+        print("you lost")
+        print(computer_choice)
+        computer_wins +=1
+
+print(f'Total computer wins = {computer_wins}')
+print(f'total Human wins = {human_wins}')
+print('Thank you for playing!')
