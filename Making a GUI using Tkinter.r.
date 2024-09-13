@@ -1,0 +1,69 @@
+#wrote this program with the help of PythonX- learn python app.
+''' facing some problem in the bind function and event handling'''
+
+
+#IMPORTS
+
+from tkinter import *
+from PIL import ImageTk,Image
+from tkinter import messagebox
+
+# MAIN PROGRAM
+
+
+
+def greetUser():
+    username = inputbox.get()
+    greet['text'] = 'Welcome' + username
+def showmessage():
+    messagebox.showinfo('PythonX - Learn Python','Weclome!')
+window = Tk()
+name = Label(window,text='PythonX-Learn Python', bg='white',fg='Blue',font=('Serif',18))
+img = Image.open('space.jpg')
+logo = ImageTk.PhotoImage(img)
+image = Label(window,image=logo)
+frame = Frame(window)
+username = Label(frame,text='Username',font=('Times New Roman',14)) #username if the object
+inputBox = Entry(frame) #Input box is the object. Entry means it will be used for entering input.
+button = Button(frame,text="Let's Start!")
+button.bind('<Button-1>',greetUser)
+greet = Label(window)
+password =  Label(frame, text='Password',font=('Times New Roman',14))
+inputBox1 = Entry(frame)
+msg = Label(frame,text='Are you ready!', bg = 'red',fg='green',font=('Times New Roman',20))
+lbl = Label(window,text='Gender:',bg = 'green',fg='red',font=('Serif',18))
+var = StringVar()
+male = Radiobutton(window,text='Male',variable=var,value='M')
+female = Radiobutton(window,text='Female',variable=var,value='F')
+python = Checkbutton(frame,text='python')
+java = Checkbutton(frame,text='Java')
+haskell = Checkbutton(frame,text='haskell')
+rust = Checkbutton(frame,text="Let's get Rusty")
+
+
+#PACK METHODS
+
+name.pack()
+image.pack()
+username.pack(side=TOP) #Pack geometry to fix the location of username and input box.
+inputBox.pack(side=TOP)
+password.pack(side=TOP)
+inputBox1.pack(side=TOP)
+button.pack(side=TOP)
+frame.pack()
+msg.pack()
+python.pack()
+java.pack()
+haskell.pack()
+rust.pack()
+lbl.pack()
+male.pack()
+female.pack()
+greet.pack()
+window.mainloop()
+
+
+
+
+if __name__ == '__main__':
+    greetUser()
