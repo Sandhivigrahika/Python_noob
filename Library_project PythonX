@@ -1,0 +1,72 @@
+class Library:
+    def __init__(self,bookslist,name): #dictionary is not mentioned in the parameters of init since we dont want to pass it at the time of object creation.
+        self.bookslist = bookslist
+        self.name = name
+        self.lendDict = {} #an empty dictionary, the key and value will be added later on.
+    def displayBooks(self):
+        print(f'We have the following books in our library : {self.name}') #Prints the name of the library.
+        for book in self.bookslist: # loops through the book list to return the names of individual books.
+            print(book)
+    def addBook(self,book):
+        self.book = book
+        if book in bookslist:
+             print('Book already exist')
+        else:
+            self.bookslist.append(book) # append() command is used to add the books to the book list
+            print('Book Added')
+
+    def lendbook(self, book, user):
+        if book in bookslist:
+            if book not in self.lendDict.keys():
+                self.lendDict.update({book: user})
+                print("Book has been lended. Database updated.")
+            else:
+                print(f"Book is already being used by {self.lendDict[book]}")
+        else:
+            print("Apologies! We don't have this book in our library")
+    def returnbook(self,book):
+        if book in self.lendDict.keys():
+            self.lendDict.pop(book) #pop method removes the element from a list/dictionary from a specified position.
+            #here it will remove the book from the lendDict ensuring the book has been returned successfully.
+            print('Book returned successfully')
+        else:
+            print(         
+
+#Remember that, since these method are inside the class, we will need the "object" to access them
+
+def main():
+     print("#################################################################################")
+     print(f"###########Welcome to the library###############################################")
+     print("#################################################################################")
+     while True:
+         choice = ["1.Display the book ","2.Add a new book","3.Lend","4.Return"]
+         for i in choice:
+             print(i)
+         userInput = int(input('Enter your choice: '))
+         if userInput == 1:
+            library.displayBooks() #Will have to feed the library database variable into the book list.
+         elif userInput ==2:
+             book = input('Book name(ADDING)')
+             library.addBook(book)
+
+         elif userInput ==3:
+             book = input('Book name(LENDING) :->')
+             user = input('user')
+             library.lendbook(book,user)
+
+         elif userInput ==4:
+             book = input('Book name(RETURNING) :->')
+             library.returnbook(book)
+         else:
+             print('Wrong input,try again!')
+
+#Program execution will begin from here using the __name__ condition -
+
+if __name__ == '__main__':
+    bookslist = []
+    databasename = input('Enter the name of the source database file with extension:')
+    bookDatabase = open(databasename,'r')
+    for book in bookDatabase:
+        bookslist.append(book)
+    library = Library(bookslist,'PythonX')
+    main()
