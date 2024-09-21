@@ -1,0 +1,55 @@
+#Create a multiplayer rolling dice game. Each player would roll the dice contintously until the number 1 arrives on the dice.
+#The scores of each roll would be taken cumulatively.
+#If any of the player crosses the 20 points barrier, he/she will win.
+
+import random
+
+def roll_dice():
+    min_value = 1
+    max_value = 6
+    dice_value = random.randint(min_value,max_value)
+    return dice_value
+
+while True:
+    try:
+        players = int(input('Enter the number of players between 2 to 4 '))
+        if 2<=players<=4:
+            print('The number of players is:',players)
+            break
+        else:
+            print("Invalid, pleaase enter a value between 2 and 4 ")
+    except:
+        print('Invalid, please try again')
+
+max_score = 10
+player_scores = [ 0 for _ in range(players)] #initialises the score of individual players to zero.
+# The list comprehension helps loop through the number of players.
+while max(player_scores) < max_score:
+
+    for player_idx in range(players):
+        print ("\n Player number", player_idx+1,"turn has just started")
+        print("Your total score is:", player_scores[player_idx])
+        current_score = 0
+        while True:
+            print(player_scores)
+            should_roll = input('Would you like to roll: Press Y \n')
+            if should_roll.lower() != 'y':
+                break
+
+            roll = roll_dice()
+            if roll == 1:
+                print('You rolled a 1, your turn is done')
+                current_score = 0
+                break
+            else:
+                current_score = roll
+                print('You got',roll)
+            player_scores[player_idx] += current_score
+            print('Your total score from this term', player_scores[player_idx])
+
+
+
+max_score= max(player_scores)
+winning_idx = player_scores.index(max_score)
+
+print(f' Player {winning_idx+1} has  has won the game with the score {max_score}')
