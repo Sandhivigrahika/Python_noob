@@ -1,0 +1,29 @@
+with open("madlibs_story.txt","r") as f:
+    story = f.read()
+
+print(story)
+
+words = []
+start_of_the_word = -1
+
+target_start = "<"
+target_end = ">"
+
+for i, char in enumerate(story): #i enumerates all the position of various characters in numbers. inlcuding char return position and the character.
+    if char == target_start:
+        start_of_the_word = i
+    if char == target_end and start_of_the_word != -1:
+        word = story[start_of_the_word: i + 1 ] #slicing operator in python
+        words.append(word)
+        start_of_the_word = -1
+
+answers = {}
+
+for word in words:
+    answer = input("Enter the word to replace the object" + word + ";")
+    answers[word] = answer
+
+for word in words:
+    story = story.replace(word,answers[word]) # replace each "word" in the list words with answers[word]
+
+print(story)
