@@ -1,0 +1,25 @@
+#connect this program with Mysql database.
+
+phone_numbers = {
+  'Aakash' : '9489484949',
+  'Hemanth' : '9595949494',
+  'Siddhant' : '9231325312'
+}
+
+
+
+while True:
+    update = input('Do you want to add or display data, Y to add, N to quit')
+    if update.lower() == "y":
+        Name = input("Enter the name")
+        Number = input('Enter the 10 digit phone number')
+        if Number.isdigit() and len(Number) == 10:
+            phone_numbers[Name] = Number
+        else:
+            print('Invalid input, Please try again')
+        display = input('Do you want to display the phonebook: D - Display, Q to quit')
+        if display.lower() == 'd':
+            for name in phone_numbers:
+                print(f'Name:{name} : Mob number:{phone_numbers[name]}')
+    elif update.lower() == 'n':
+        break
