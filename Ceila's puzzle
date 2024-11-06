@@ -1,0 +1,35 @@
+words1 = ["apple","banana","grape", "orange"]
+n1=4
+words2 = ["cherry","peach","pear"]
+n2=3
+def longest_word(enter_string):
+    for i in enter_string:
+        if len(i) == (len(max(words2, key=len))):
+            return i
+
+
+longest_string = longest_word(words2)
+print("The longest string is :",longest_string)
+#convert the "longest_word" string into list using split function.
+
+Lst = []
+for i in longest_string:
+    Lst.append(i)
+print(Lst)
+
+sorted_lst = sorted(Lst)
+print(sorted_lst)
+
+i=0
+final_lst = []
+for i in range(len(sorted_lst)-1):
+    if sorted_lst[i] not in final_lst:
+        final_lst.append(sorted_lst[i])
+    else:
+        continue
+
+string1 = ""
+print(final_lst)
+final_result = "".join(final_lst)
+print(final_result)
+
