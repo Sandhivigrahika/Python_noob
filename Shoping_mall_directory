@@ -1,0 +1,114 @@
+'''8. Shopping Mall Directory
+Problem: Create a Store class that stores:
+store_name, store_type (e.g., clothing, electronics), and open_status.
+Methods:
+open_store(): Mark the store as open.
+close_store(): Mark the store as closed.
+Bonus: Create a Mall class to keep track of multiple stores and manage opening/closing.'''
+
+class Store:
+    def __init__(self,name,type,status):
+        self.name = name
+        self.type = type
+        self.status = False
+
+    def get_status(self):
+        if self.status == False:
+            return "Shop is closed"
+        else:
+            return "Shop is open"
+
+    def open(self):
+        if self.status == False:
+            self.status = True
+            return f"Store: {self.name} Marked Open"
+        else:
+            return f"Store: {self.name} Already open"
+
+    def close(self):
+        if self.status == True:
+            self.status = False
+            return f"Store: {self.name} Marked Close"
+        else:
+            return f"Store: {self.name} already Closed"
+#create a mall class, add the stores into the list of different floors and add a method to close or open them together.
+class Floors:
+    def __init__(self,floor_name):
+        self.floor_name = floor_name
+        self.shop_list = []
+    def add_shops(self,shop):
+        if shop not in self.shop_list:
+            self.shop_list.append(shop)
+        else:
+            print("Shop already added")
+
+    def remove_shop(self,shop):
+        if shop not in self.shop_list:
+            print("Shop not present")
+        else:
+            self.shop_list.remove(shop)
+
+    def display_shops(self):
+        for shop in self.shop_list:
+            print(shop)
+
+    def open_shops(self):
+        for shop in self.shop_list:
+            shop.status = True
+        return "Shops Opened on floor"
+
+    def close_shops(self):
+        for shops in self.shop_list:
+            shop.status = False
+        return "All shops closed"
+    def find_store(self,shop):
+        if shop in self.shop_list:
+            print (f"{shop.name} on {self.floor_name} is  {shop.status}")
+
+class Mall:
+    def __init__(self,mall_name):
+        self.mall_name = mall_name
+        self.floors = []
+
+    def add_floors(self,floor):
+        self.floors.append(floor)
+
+    def remove_floors(self,floor):
+        self.floors.append(floor)
+
+    def display_floors(self):
+        for floor in self.floors:
+            print(floor.floor_name)
+
+    def open_all_shops(self):
+        for floor in self.floors:
+            floor.open_shops()
+        print("All shops on the floor are opened")
+    def close_all_shops(self):
+        for floor in self.floors:
+            floor.close_shops()
+        print("All shops on the floor are closed")
+
+
+
+shop1 = Store("Haldiram","Eatery",False)
+shop2 = Store("Raymond","Clothing",False)
+shop3 = Store("Crossword","Books", False)
+shop4 = Store("Chroma","Electronics",False)
+shop5 = Store("Reliance Digital","Electronics",False)
+shop6 = Store("Decathlon","Sports",False)
+
+
+floor1 = Floors("1ST floor")
+floor1.add_shops(shop1)
+floor1.add_shops(shop2)
+floor1.add_shops(shop3)
+floor2 = Floors("2nd floor")
+floor2.add_shops(shop4)
+floor2.add_shops(shop5)
+floor2.add_shops(shop6)
+
+mall = Mall("City Centre")
+mall.add_floors(floor1)
+mall.add_floors(floor2)
+
