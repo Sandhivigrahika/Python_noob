@@ -1,0 +1,51 @@
+from collections import deque
+import time
+import threading
+
+class order_class:
+    def __init__(self):
+        self.menu = deque()
+        self.lock = threading.Lock()
+
+    def enque(self,order):
+        with self.lock:
+            self.menu.append(order)
+
+    def deque(self):
+        with self.lock:
+            return self.menu.popleft()
+    def is_empty(self):
+        return len(self.menu)==0
+    def size(self):
+        return len(self.menu)
+
+ordering = order_class()
+
+
+order_list = ['pizza','samosa','pasta','biryani','burger']
+
+def place_order(order_list):
+    for order in order_list:
+        ordering.enque(order)
+        time.sleep(0.5)
+        print(f"(created : {order})")
+    return 1
+
+def serve_order():
+    while not  ordering.is_empty():
+        order = ordering.deque()
+        time.sleep(1)
+        print (f"order served: {order}")
+    return 1
+
+t = time.time()
+t1 = threading.Thread(target=place_order,args=(order_list,))
+t2 = threading.Thread(target=serve_order,args=())
+
+t1.start()
+t2.start()
+
+t1.join()
+t2.join()
+
+print("done in: ",time.time()-t)
