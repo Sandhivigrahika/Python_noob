@@ -1,0 +1,157 @@
+#bank account class
+import threading
+import random
+import mysql.connector as connector
+
+#connect with the database
+def connect_to_db():
+    return connector.connect(host="localhost",user="root",password="18014552",database="banking_system")
+
+
+
+
+class BankAccount:
+    def __init__(self, account_holder, recipient_account, balance=0):
+        self.account_holder = account_holder #account holders name
+        self.balance = balance
+        self.lock = threading.Lock()
+        self.recipient_account = recipient_account
+        self.transaction_log = []
+
+    def deposit(self, amount):
+        with self.lock:
+            self.balance += amount
+            self.transaction_log.append(f"Account of {self.account_holder} credited with: {amount}")
+
+    def withdraw(self,amount):
+        with self.lock:
+            if self.balance >= amount:
+                self.balance -= amount
+                self.transaction_log.append(f'Account of {self.account_holder},Debited: {amount}')
+            else:
+                print (f"Account: {self.account_holder} does not have sufficient balance")
+
+    def transfer(self,recipient_account,amount):
+        accounts = sorted([self, recipient_account], key=lambda x: id(x))  # Sort accounts to avoid deadlocks
+        with accounts[0].lock, accounts[1].lock:  # Lock both accounts at the same time
+            if self.balance >= amount:
+                self.balance -= amount
+                recipient_account.deposit(amount) #deposit the amount into recipients account
+                self.transaction_log.append(f"Amount of {amount} transferred to {recipient_account.account_holder} from {self.account_holder}")
+                return print(f" {self.account_holder} transferred {amount} to {recipient_account.account_holder}")
+
+            else:
+                print(f"Account: {self.account_holder} does not have sufficient balance")
+
+
+    def get_balance(self):
+        with self.lock: #lockwhile accessing the balance
+            return self.balance
+    def get_transaction_log(self):
+        with self.lock:
+            return self.transaction_log
+
+
+
+    def __repr__(self):
+        return f"Bank_account: {self.account_holder}:  opening balance is {self.balance}"
+
+    def __str__(self):
+        return self.__repr__()
+
+
+class Bank:
+    def __init__(self):
+        self.accounts = {}
+        self.lock = threading.Lock()
+
+    def create_account(self, account_holder, initial_balance=0):
+        with self.lock:
+            account = BankAccount(account_holder,None,initial_balance)
+            self.accounts[account_holder] = account
+            print(f'Account for {account_holder} created with initial balance {initial_balance}')
+
+    def get_account(self,account_holder):
+        with self.lock:
+            return self.accounts.get(account_holder)
+
+    def account_holders(self):
+        with self.lock:
+            return self.accounts
+
+
+
+
+
+'''
+#create bank and multiple accounts
+bank = Bank()
+bank.create_account('Neel',1500)
+bank.create_account('Rahul',1500)
+bank.create_account('Modi',2500)
+bank.create_account('Udaya',1000)
+bank.create_account('Ramdev',2000)
+bank.create_account('Pam',1500)
+bank.create_account('Tom',2500)
+
+
+print('############################################################################')
+print('#######################$#$#$#$#########################$$$$$$$$$$$$$$$$$$$')
+
+
+def user_thread():
+    actions = ['deposit', 'withdraw', 'transfer']
+
+    for _ in range(5): #proceeds to do any action 5 times
+        account_holder = random.choice(list(bank.accounts.keys())) #retrieve a random account holders name from the self.accounts dictionary
+        account = bank.get_account(account_holder) #use the key(account holder name) to retrieve the bank account object.
+        action = random.choice(actions)
+        amount = random.randint(10,100)
+        recipient = random.choice(list(bank.accounts.keys()))
+        recipient_account = bank.get_account(recipient)
+
+        if action == 'deposit':
+            account.deposit(amount)
+            print("Deposit Done")
+            print('\n')
+        elif action == 'withdraw':
+            account.withdraw(amount)
+            print(f'Account Debited,{amount}')
+            print('\n')
+        elif action == 'transfer':
+            recipient = recipient_account
+            account.transfer(recipient,amount)
+            print('transfer completed')
+            print('\n')
+        else:
+            print("Account Not found!")
+
+def user_thread2():
+    for _ in bank.accounts:
+        account_holder = random.choice(list(bank.accounts.keys()))
+        account = bank.get_account(account_holder)
+        transaction_log = account.get_transaction_log()
+        for log in transaction_log:
+            print(log)
+
+
+t1 = threading.Thread(target=user_thread)
+t2 = threading.Thread(target=user_thread)
+
+t3 = threading.Thread(target=user_thread2)
+
+t1.start()
+t2.start()
+
+t1.join()
+t2.join()
+
+t3.start()
+t3.join()
+
+'''
+
+
+
+'''I am able to print the transaction log in outside the user thread function which essentially means that i have made
+some mistake in the threading module'''
